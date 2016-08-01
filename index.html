@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html-->
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+<title>Examen</title>
+            
+            <style type="text/css">
+                h1{
+                    text-align: center;
+                }
+                p{
+                    text-align: center;
+                }
+            </style>
+            <script type="text/javascript">
+                $(document).ready(function inicio(){
+                    
+                var btnEnvioDat=$("#enviar_dat");
+                var btnEnvioCal=$("#enviar_cal")
+                
+                btnEnvioDat.click(function enviarDatos(){
+                    
+                     var nuc=$("#numero_de_control").val();
+                     var nom=$("#nombre").val();
+                     var app=$("#apellidos").val();
+                     var ing=$("#ingenieria").val();
+                     var sem=$("#semestre").val();
+                    
+                    $.ajax({
+                        type:"POST",
+                        url:"envio.php",
+                       data:"&numero_de_control="+nuc+"&nombre="+nom+"&apellidos="+app+"&ingenieria="+ing+"&semestre="+sem,
+                        success: recepcion
+                        });
+                    });
+                
+                btnEnvioCal.click(function enviarDatos(){
+                     
+                         var nuc=$("#numero_de_control").val();
+                        var pa1=parseInt($("#parcial1").val());
+                        var pa2=parseInt($("#parcial2").val());
+                        var pa3=parseInt($("#parcial3").val());
+                        var pa4=parseInt($("#parcial4").val());
+                       
+                     var c1=parseInt($("#Cal1").val());
+                     var c2=parseInt($("#Cal2").val());
+                     var c3=parseInt($("#Cal3").val());
+                     var c4=parseInt($("#Cal4").val());
+                        
+                        var pro=((pa1+pa2+pa3+pa4)/4); 
+                    
+                         $.ajax({
+                        type:"POST",
+                        url:"envioCal.php",
+                         data:"&numero_de_control="+nuc+"&parcial1="+pa1+"&parcial2="+pa2+"&parcial3="+pa3+"&parcial4="+pa4+"&promedio="+pro,
+                         success: recepcion
+                        });
+                    });
+                    
+                function recepcion(datos){
+                    alert(datos);
+                    }    
+                    });
+            </script>
+        </head>
+        <body>
+           
+            <div data-role="page" id="Principal" data-theme="a">
+                <div data-role="header" id="en_principal">
+                    <p>Registro<p/>
+                </div>
+                <div >
+                    <p>Alumnos</p>
+                    <a href="#Reg_Datos" data-role="button"  data-transition="fade" id="menus2">Alumnos</a>
+                    <p>Calificaciones</p>
+                    <a href="#Reg_Cali" data-role="button" data-transition="fade" id="menus1">Calificaciones</a>
+                </div>
+                <div data-role="footer" id="pieprincipal">
+                    <p>Pie de página</p>
+                </div>
+            </div>
+            
+            <div data-role="page" id="Reg_Datos" data-theme="a">
+                <div data-role="header">
+                    <a href="#Principal" data-role="button" data-transition="pop" data-add-back-btn="true" data-icon="star">Inicio</a>
+                    <p>Datos personales alumnos</p>
+                </div>
+                <div data-role="content">
+                    
+                    <form method="POST" action="envio_datos.php">
+                        <div class="ui-field-contain">
+                            
+                             <label for="numero_de_control">Numero de control: </label>
+	                     <input type="text" name="numero_de_control" id="numero_de_control" >
+	                    <label for="nombre">Nombre: </label>
+	                  <input type="text" name="nombre" id="nombre" >
+	                <label for="apellidos">Apellidos: </label>
+	               <input type="text" name="apellidos" id="apellidos" >
+	              <label for="ingenieria">Ingenieria: </label>
+	              <input type="text" name="ingenieria" id="ingenieria" >	  
+	             <label for="semestre">Semestre: </label>
+	             <input type="text" name="semestre" id="semestre"  >
+                        </div>
+                        
+                        <input type="button" name="enviar_dat" id="enviar_dat" value="Enviar">
+                     </form>
+                    <div id="respuesta"> </div>
+                </div>
+                <div data-roler="footer">
+                    <p>Derechos reservados</p>
+                </div>
+            </div>
+            
+            <div data-role="page" id="Reg_Cali" data-theme="a">
+                <div data-role="header">
+                    <a href="#Principal" data-role="button" data-transition="flip" data-add-back-btn="true" data-icon="star">Inicio</a>
+                    <p>Calificaciones del alumno</p>
+                </div>
+                
+                <div data-role="content">
+                    
+                    <form method="POST" action="envioCal.php">
+                        <div class="ui-field-contain">
+                           
+                            <label for="nuc">Numero de control: </label>
+                            <input type="text" name="nuc" id="nuc">
+                
+                            <label for="parcial1">Parcial  1: </label>
+                            <input type="text" name="parcial1" id="parcial1">
+                
+                            <label for="parcial2">Parcial 2: </label>
+                            <input type="text" name="parcial2" id="parcial2">
+                
+                            <label for="parcial3">Parcial 3: </label>
+                            <input type="text" name="parcial3" id="parcial3">
+                
+                            <label for="parcial4">Parcial 4: </label>
+                            <input type="text" name="parcial4" id="parcial4">
+                                
+                            <label for="promedio">Promedio: </label>
+                            <input type="text" name="promedio" id="promedio">
+               
+                        </div>
+                        <input type="button" name="enviar_cal" id="enviar_cal" value="Enviar">
+                    </form>
+                    <div id="respuesta1"> </div>
+                </div>
+                <div data-roler="footer" id="cali">
+                    <p>Derechos reservados</p>
+                </div>
+            </div>
+            
+        </body>
+    </html>
